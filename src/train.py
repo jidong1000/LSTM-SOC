@@ -12,12 +12,12 @@ features = raw_data[FEATURE_COLS]
 # 对原始特征数据进行归一化处理
 data = data_standardize(raw_data)
 # my_dataset:(target_features, target_soc) tuple类型
-my_dataset = MyDataset(data)
+my_dataset = MyDataset(data, win_size=100)
 print(f"有{len(my_dataset)}个滑动窗口")
 # # 第一条my_dataset，即整个元组，再索引元组的第一个位置，即target_features
 # print(my_dataset[0][0].shape)
 # input_size即数据的特征数
-model = RNN(input_size=my_dataset[0][0].shape[-1], hidden_size=16)
+model = RNN(input_size=my_dataset[0][0].shape[-1], hidden_size=16, num_layers=1)
 
 def train(model, dataset, lr, epoch_num, batch_size, device='cuda'):
     model.to(device)
@@ -49,12 +49,12 @@ def train(model, dataset, lr, epoch_num, batch_size, device='cuda'):
         print(f"平均损失 = {this_loss:.6f}")
 
 lr = 0.001
-epoch_num = 10
+epoch_num = 9
 batch_size = 32
 
 train(model, my_dataset, lr, epoch_num, batch_size)
 
-save_path = ROOT_DIR / 'rnn_soc.pth'
+save_path = ROOT_DIR / 'rnn_soc_6.pth'
 torch.save(
     {
         'model_state_dict':model.state_dict(),

@@ -1,0 +1,9 @@
+win_size = 80
+num_layers = 1
+hidden_size = 16
+batch_size = 32
+
+测试 MSE：0.021434
+测试 MAE：11.55%
+测试 RMSE：14.64%
+最大绝对误差：45.94%

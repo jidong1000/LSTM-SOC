@@ -22,7 +22,8 @@ def data_load(data_path):
     Q = 2.9
     data['soc'] = soc_0 + (data['Ah'] - data['Ah'].iloc[0]) / Q
     # print(data.head())
-    # df.to_csv(DATASETS_DIR / '25degC_UDDS.csv', index=False)
+    # data.to_csv(DATASETS_DIR / '25degC_UDDS.csv', index=False)
+    # data.to_csv(DATASETS_DIR / '25degC_US06.csv', index=False)
 
     return data
 
@@ -42,7 +43,7 @@ def data_standardize(data):
 构造数据集
 '''
 class MyDataset(Dataset):
-    def __init__(self, input, win_size=30):
+    def __init__(self, input, win_size):
         self.win_size = win_size
         # .copy() 保证 numpy 数组可写，否则 from_numpy 会报 non-writable 警告
         self.features = torch.from_numpy(input[FEATURE_COLS ].to_numpy(dtype='float32').copy())
