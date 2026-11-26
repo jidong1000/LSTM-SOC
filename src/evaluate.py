@@ -4,7 +4,7 @@ import torch
 from torch.utils.data import DataLoader
 from config import DATASETS_DIR, MODELS_DIR
 from dataset import MyDataset, data_load
-from model import LSTM, RNN
+from model import GRU, LSTM, RNN
 
 def evaluate(model, test_dataset, batch_size=32, device="cpu"):
     num_windows = len(test_dataset)
@@ -45,7 +45,8 @@ def evaluate(model, test_dataset, batch_size=32, device="cpu"):
 if __name__ == "__main__":
     model_class = LSTM
     checkpoint_paths = {
-        LSTM: MODELS_DIR / "lstm" / "lstm_soc_6.pth",
+        GRU: MODELS_DIR / "gru" / "gru_soc_5.pth",
+        LSTM: MODELS_DIR / "lstm" / "lstm_soc_7.pth",
         RNN: MODELS_DIR / "RNN" / "rnn_soc_2.pth",
     }
     checkpoint = torch.load(
