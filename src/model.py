@@ -10,7 +10,19 @@ class RNN(nn.Module):
         self.linear = nn.Linear(hidden_size, 1)
 
     def forward(self, input, hx=None):
-        output, hn = self.rnn(input, hx)
+        output, _ = self.rnn(input, hx)
         y = self.linear(output)
 
-        return y, hn
+        return y
+
+class LSTM(nn.Module):
+    def __init__(self, input_size, hidden_size, num_layers=1):
+        super().__init__()
+        self.lstm = nn.LSTM(input_size=input_size, hidden_size=hidden_size, num_layers=num_layers, batch_first=True)
+        self.linear = nn.Linear(hidden_size, 1)
+
+    def forward(self, input):
+        output, (_, _) = self.lstm(input)
+        y = self.linear(output)
+
+        return y

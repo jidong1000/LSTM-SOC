@@ -2,9 +2,9 @@ from math import sqrt
 import pandas as pd
 import torch
 from torch.utils.data import DataLoader
-from config import DATASETS_DIR, ROOT_DIR
+from config import DATASETS_DIR, MODELS_DIR
 from dataset import MyDataset, data_load
-from model import RNN
+from model import LSTM, RNN
 
 def evaluate(model, test_dataset, batch_size=32, device="cpu"):
     num_windows = len(test_dataset)
@@ -22,7 +22,7 @@ def evaluate(model, test_dataset, batch_size=32, device="cpu"):
     with torch.inference_mode():
         for x, y in loader:
             x, y = x.to(device), y.to(device)
-            y_pred, _ = model(x)
+            y_pred = model(x)
 
             # 与训练一致，只比较每个窗口最后一个时间点的 SOC。
             error = y_pred[:, -1, 0] - y[:, -1]
@@ -43,10 +43,15 @@ def evaluate(model, test_dataset, batch_size=32, device="cpu"):
     }
 
 if __name__ == "__main__":
+    model_class = LSTM
+    checkpoint_paths = {
+        LSTM: MODELS_DIR / "lstm" / "lstm_soc_7.pth",
+        RNN: MODELS_DIR / "RNN" / "rnn_soc_2.pth",
+    }
     checkpoint = torch.load(
-        ROOT_DIR / "rnn_soc_2.pth", map_location="cpu", weights_only=True
+        checkpoint_paths[model_class], map_location="cpu", weights_only=True
     )
-    model = RNN(**checkpoint["model_args"])
+    model = model_class(**checkpoint["model_args"])
     model.load_state_dict(checkpoint["model_state_dict"])
 
     test_path = next(DATASETS_DIR.rglob("03-20-17_01.43 25degC_US06_Pan18650PF.mat"))

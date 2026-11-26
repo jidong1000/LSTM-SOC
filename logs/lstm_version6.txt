@@ -1,0 +1,8 @@
+HIDDEN_SIZE = 64
+NUM_LAYERS = 2
+WIN_SIZE= 300
+
+测试 MSE：0.003423
+测试 MAE：4.96%
+测试 RMSE：5.85%
+最大绝对误差：23.54%
