@@ -45,7 +45,7 @@ def evaluate(model, test_dataset, batch_size=32, device="cpu"):
 if __name__ == "__main__":
     model_class = LSTM
     checkpoint_paths = {
-        LSTM: MODELS_DIR / "lstm" / "lstm_soc_7.pth",
+        LSTM: MODELS_DIR / "lstm" / "lstm_soc_6.pth",
         RNN: MODELS_DIR / "RNN" / "rnn_soc_2.pth",
     }
     checkpoint = torch.load(
